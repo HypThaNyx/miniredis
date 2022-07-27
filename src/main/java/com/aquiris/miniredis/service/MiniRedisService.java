@@ -40,4 +40,16 @@ public class MiniRedisService {
         return nElement.isPresent() ? nElement.get().getValor() : null;
     }
 
+    public Integer deleteKeys(List<String> keyList) {
+        Integer numberOfKeysRemoved = 0;
+        for (String key : keyList) {
+            Optional<NElement> nElement = nElementRepository.findById(key);
+            if (nElement.isPresent()) {
+                nElementRepository.deleteById(key);
+                numberOfKeysRemoved++;
+            }
+        }
+        return numberOfKeysRemoved;
+    }
+
 }
