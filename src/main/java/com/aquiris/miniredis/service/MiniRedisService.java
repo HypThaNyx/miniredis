@@ -19,8 +19,15 @@ public class MiniRedisService {
         this.sortedSetRepository = sortedSetRepository;
     }
 
-    public Integer getDBSize() {
-        return Long.valueOf(nElementRepository.count() + sortedSetRepository.count()).intValue();
+    public Integer getDBSize(String database) {
+        switch (database) {
+            case "nElement":
+                return Long.valueOf(nElementRepository.count()).intValue();
+            case "sortedSet":
+                return Long.valueOf(sortedSetRepository.count()).intValue();
+            default:
+                return Long.valueOf(nElementRepository.count() + sortedSetRepository.count()).intValue();
+        }
     }
 
     public void setValue(String key, String value) {
