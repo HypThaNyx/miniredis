@@ -17,4 +17,8 @@ public class MiniRedisService {
         this.sortedSetRepository = sortedSetRepository;
     }
 
+    public Integer getDBSize() {
+        return Long.valueOf(nElementRepository.count() + sortedSetRepository.count()).intValue();
+    }
+
 }
