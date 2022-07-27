@@ -3,6 +3,7 @@ package com.aquiris.miniredis.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "n_element")
@@ -10,12 +11,21 @@ public class NElement extends Ledger {
     @Column(name = "valor")
     private String valor;
 
+    @Column(name = "expiryDate")
+    private LocalDateTime expiryDate;
+
     public NElement() {
     }
 
     public NElement(String chave, String valor){
         this.chave = chave;
         this.valor = valor;
+    }
+
+    public NElement(String chave, String valor, LocalDateTime expiryDate){
+        this.chave = chave;
+        this.valor = valor;
+        this.expiryDate = expiryDate;
     }
 
     public String getValor() {

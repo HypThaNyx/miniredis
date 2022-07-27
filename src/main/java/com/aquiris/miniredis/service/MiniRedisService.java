@@ -5,6 +5,8 @@ import com.aquiris.miniredis.repository.NElementRepository;
 import com.aquiris.miniredis.repository.SortedSetRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,8 +23,16 @@ public class MiniRedisService {
         return Long.valueOf(nElementRepository.count() + sortedSetRepository.count()).intValue();
     }
 
-    public void setKeyValue(String key, String value) {
+    public void setValue(String key, String value) {
         nElementRepository.save(new NElement(key, value));
+    }
+
+    public void setValue(String key, String value, Integer seconds){
+        nElementRepository.save(new NElement(key, value, dateTimeFromNow(seconds)));
+    }
+
+    private LocalDateTime dateTimeFromNow(Integer seconds) {
+        return LocalDateTime.now().plusSeconds(seconds);
     }
 
 }
