@@ -7,14 +7,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "n_element")
 public class NElement extends Ledger {
-    @Column(name = "value")
-    private String value;
+    @Column(name = "valor")
+    private String valor;
 
-    public String getValue() {
-        return value;
+    public String getValor() {
+        return valor;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setValor(String valor) {
+        this.valor = valor;
     }
 }

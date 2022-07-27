@@ -5,14 +5,14 @@ import javax.persistence.*;
 @MappedSuperclass
 public abstract class Ledger {
     @Id
-    @Column(name = "key", nullable = false)
-    private String key;
+    @Column(name = "chave", nullable = false)
+    private String chave;
 
-    public String getKey() {
-        return key;
+    public String getChave() {
+        return chave;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setChave(String chave) {
+        this.chave = chave;
     }
 }
