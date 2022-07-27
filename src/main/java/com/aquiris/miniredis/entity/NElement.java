@@ -10,6 +10,14 @@ public class NElement extends Ledger {
     @Column(name = "valor")
     private String valor;
 
+    public NElement() {
+    }
+
+    public NElement(String chave, String valor){
+        this.chave = chave;
+        this.valor = valor;
+    }
+
     public String getValor() {
         return valor;
     }

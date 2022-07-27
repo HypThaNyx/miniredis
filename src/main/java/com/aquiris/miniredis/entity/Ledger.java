@@ -6,7 +6,7 @@ import javax.persistence.*;
 public abstract class Ledger {
     @Id
     @Column(name = "chave", nullable = false)
-    private String chave;
+    protected String chave;
 
     public String getChave() {
         return chave;
