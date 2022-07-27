@@ -35,4 +35,9 @@ public class MiniRedisService {
         return LocalDateTime.now().plusSeconds(seconds);
     }
 
+    public String getValue(String key) {
+        Optional<NElement> nElement = nElementRepository.findById(key);
+        return nElement.isPresent() ? nElement.get().getValor() : null;
+    }
+
 }
