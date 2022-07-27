@@ -21,4 +21,8 @@ public class MiniRedisService {
         return Long.valueOf(nElementRepository.count() + sortedSetRepository.count()).intValue();
     }
 
+    public void setKeyValue(String key, String value) {
+        nElementRepository.save(new NElement(key, value));
+    }
+
 }
