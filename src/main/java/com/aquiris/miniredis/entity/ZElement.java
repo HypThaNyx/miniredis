@@ -40,4 +40,21 @@ public class ZElement {
     public void setMember(String member) {
         this.member = member;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ZElement other = (ZElement) obj;
+        if (member == null) {
+            if (other.member != null)
+                return false;
+        } else if (!member.equals(other.member))
+            return false;
+        return true;
+    }
 }
