@@ -30,12 +30,12 @@ public class MiniRedisService {
         }
     }
 
-    public void setValue(String key, String value) {
-        nElementRepository.save(new NElement(key, value));
+    public NElement setValue(String key, String value) {
+        return nElementRepository.save(new NElement(key, value));
     }
 
-    public void setValue(String key, String value, Integer seconds){
-        nElementRepository.save(new NElement(key, value, dateTimeFromNow(seconds)));
+    public NElement setValue(String key, String value, Integer seconds){
+        return nElementRepository.save(new NElement(key, value, dateTimeFromNow(seconds)));
     }
 
     private LocalDateTime dateTimeFromNow(Integer seconds) {
@@ -57,6 +57,16 @@ public class MiniRedisService {
             }
         }
         return numberOfKeysRemoved;
+    }
+
+    public String increaseValue(String key) throws NumberFormatException {
+        Optional<NElement> nElement = nElementRepository.findById(key);
+        Long value = 0L;
+        if (nElement.isPresent()) {
+            value = Long.valueOf(nElement.get().getValor());
+        }
+        value += 1L;
+        return nElementRepository.save(new NElement(key, Long.toString(value))).getValor();
     }
 
 }
