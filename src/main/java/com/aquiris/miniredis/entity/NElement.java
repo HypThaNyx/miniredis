@@ -1,5 +1,7 @@
 package com.aquiris.miniredis.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,6 +14,7 @@ public class NElement extends Ledger {
     private String valor;
 
     @Column(name = "expiryDate")
+    @JsonIgnore
     private LocalDateTime expiryDate;
 
     public NElement() {
@@ -34,5 +37,13 @@ public class NElement extends Ledger {
 
     public void setValor(String valor) {
         this.valor = valor;
+    }
+
+    public LocalDateTime getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(LocalDateTime expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }
