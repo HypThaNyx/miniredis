@@ -118,13 +118,13 @@ public class MiniRedisService {
         return sortedSet.map(set -> set.getElementos().size()).orElse(0);
     }
 
-    private List<ZElement> orderZElementsByScoreThenMember(List<ZElement> zElements) {
+    private LinkedList<ZElement> orderZElementsByScoreThenMember(List<ZElement> zElements) {
         Comparator<ZElement> comparator = Comparator.comparing(ZElement::getScore);
         comparator = comparator.thenComparing(ZElement::getMember);
 
         Stream<ZElement> zElementsStream = zElements.stream().sorted(comparator);
 
-        return zElementsStream.collect(Collectors.toList());
+        return new LinkedList<>(zElementsStream.collect(Collectors.toList()));
     }
 
     public Integer zRankMember(String key, String member) throws NoSuchElementException {
@@ -133,7 +133,7 @@ public class MiniRedisService {
         List<ZElement> zElements = sortedSet.getElementos();
         ZElement wantedElement = findZElement(zElements, member);
 
-        List<ZElement> zElementsInOrder = orderZElementsByScoreThenMember(zElements);
+        LinkedList<ZElement> zElementsInOrder = orderZElementsByScoreThenMember(zElements);
         return zElementsInOrder.indexOf(wantedElement);
     }
 
@@ -143,6 +143,24 @@ public class MiniRedisService {
                 .toList();
         if (foundElements.isEmpty()) throw new NoSuchElementException();
         return foundElements.get(0);
+    }
+
+    public List<ZElement> zRangeKey(String key, Integer start, Integer stop) throws NoSuchElementException {
+        SortedSet sortedSet = sortedSetRepository.findById(key).orElseThrow();
+
+        List<ZElement> zElements = sortedSet.getElementos();
+        LinkedList<ZElement> zElementsInOrder = orderZElementsByScoreThenMember(zElements);
+
+        return findSubList(zElementsInOrder, start, stop);
+    }
+
+    private LinkedList<ZElement> findSubList(LinkedList<ZElement> zElements, Integer start, Integer stop) {
+        if (start > stop || start > zElements.size() - 1) return new LinkedList<>();
+        if (start < 0) start = 0;
+        if (stop > zElements.size() - 1) stop = zElements.size() - 1;
+        stop++;
+
+        return new LinkedList<>(zElements.subList(start, stop));
     }
 
 }
