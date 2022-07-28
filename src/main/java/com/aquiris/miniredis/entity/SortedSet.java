@@ -1,6 +1,7 @@
 package com.aquiris.miniredis.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -14,9 +15,10 @@ public class SortedSet extends Ledger {
 
     public SortedSet(String chave, List<ZElement> elementos) {
         this.chave = chave;
-        this.elementos = elementos;
+        setElementos(elementos);
     }
-    @OneToMany(mappedBy = "sorted_set")
+    @OneToMany(mappedBy = "sorted_set", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<ZElement> elementos = new ArrayList<ZElement>();
 
     public List<ZElement> getElementos() {

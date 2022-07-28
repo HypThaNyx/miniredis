@@ -1,5 +1,6 @@
 package com.aquiris.miniredis.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -17,8 +18,9 @@ public class ZElement {
     @JsonProperty("score")
     private Long score;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "sorted_set_key", nullable = false)
+    @JsonBackReference
     private SortedSet sorted_set;
 
     public SortedSet getSorted_set() {
