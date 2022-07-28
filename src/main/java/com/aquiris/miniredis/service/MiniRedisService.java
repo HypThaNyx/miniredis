@@ -51,16 +51,33 @@ public class MiniRedisService {
         return nElement.map(NElement::getValor).orElseThrow();
     }
 
-    public Integer deleteKeys(List<String> keyList) {
+    public Integer deleteKeys(List<String> keyList, String database) {
         Integer numberOfKeysRemoved = 0;
         for (String key : keyList) {
-            Optional<NElement> nElement = nElementRepository.findById(key);
-            if (nElement.isPresent()) {
-                nElementRepository.deleteById(key);
-                numberOfKeysRemoved++;
-            }
+            if (database.equals("nElement") || database.equals("both"))
+                numberOfKeysRemoved += deleteKeyFromN(key);
+            if (database.equals("sortedSet") || database.equals("both"))
+                numberOfKeysRemoved += deleteKeyFromZ(key);
         }
         return numberOfKeysRemoved;
+    }
+
+    private Integer deleteKeyFromN(String key) {
+        Optional<NElement> nElement = nElementRepository.findById(key);
+        if (nElement.isPresent()) {
+            nElementRepository.deleteById(key);
+            return 1;
+        }
+        return 0;
+    }
+
+    private Integer deleteKeyFromZ(String key) {
+        Optional<SortedSet> sortedSet = sortedSetRepository.findById(key);
+        if (sortedSet.isPresent()) {
+            sortedSetRepository.deleteById(key);
+            return 1;
+        }
+        return 0;
     }
 
     public String increaseValue(String key) throws NumberFormatException {
