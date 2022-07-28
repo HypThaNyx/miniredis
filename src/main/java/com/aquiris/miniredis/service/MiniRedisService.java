@@ -113,6 +113,9 @@ public class MiniRedisService {
         }
     }
 
-
+    public Integer zCardinality(String key) {
+        Optional<SortedSet> sortedSet = sortedSetRepository.findById(key);
+        return sortedSet.isPresent() ? sortedSet.get().getElementos().size() : 0;
+    }
 
 }
