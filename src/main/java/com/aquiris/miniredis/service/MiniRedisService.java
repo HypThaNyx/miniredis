@@ -5,7 +5,6 @@ import com.aquiris.miniredis.entity.SortedSet;
 import com.aquiris.miniredis.entity.ZElement;
 import com.aquiris.miniredis.repository.NElementRepository;
 import com.aquiris.miniredis.repository.SortedSetRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -46,9 +45,20 @@ public class MiniRedisService {
         return LocalDateTime.now().plusSeconds(seconds);
     }
 
-    public String getValue(String key) throws NoSuchElementException {
+    private Optional<NElement> findKeyIfNotExpired(String key) {
         Optional<NElement> nElement = nElementRepository.findById(key);
-        return nElement.map(NElement::getValor).orElseThrow();
+        if (nElement.isPresent()) {
+            if (LocalDateTime.now().isAfter(nElement.get().getExpiryDate())) {
+                nElementRepository.delete(nElement.get());
+                return Optional.empty();
+            }
+        }
+        return nElement;
+    }
+
+    public String getValue(String key) throws NoSuchElementException {
+        Optional<NElement> nElement = findKeyIfNotExpired(key);
+        return nElement.map(NElement::getValor).orElse("(nil)");
     }
 
     public Integer deleteKeys(List<String> keyList, String database) {
@@ -63,7 +73,7 @@ public class MiniRedisService {
     }
 
     private Integer deleteKeyFromN(String key) {
-        Optional<NElement> nElement = nElementRepository.findById(key);
+        Optional<NElement> nElement = findKeyIfNotExpired(key);
         if (nElement.isPresent()) {
             nElementRepository.deleteById(key);
             return 1;
@@ -81,7 +91,7 @@ public class MiniRedisService {
     }
 
     public String increaseValue(String key) throws NumberFormatException {
-        Optional<NElement> nElement = nElementRepository.findById(key);
+        Optional<NElement> nElement = findKeyIfNotExpired(key);
         long value = 0L;
         if (nElement.isPresent()) {
             value = Long.parseLong(nElement.get().getValor());
@@ -171,13 +181,13 @@ public class MiniRedisService {
         return findSubList(zElementsInOrder, start, stop);
     }
 
-    private LinkedList<ZElement> findSubList(LinkedList<ZElement> zElements, Integer start, Integer stop) {
+    private List<ZElement> findSubList(LinkedList<ZElement> zElements, Integer start, Integer stop) {
         if (start > stop || start > zElements.size() - 1) return new LinkedList<>();
         if (start < 0) start = 0;
         if (stop > zElements.size() - 1) stop = zElements.size() - 1;
         stop++;
 
-        return new LinkedList<>(zElements.subList(start, stop));
+        return zElements.subList(start, stop);
     }
 
 }
