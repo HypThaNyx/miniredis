@@ -5,13 +5,13 @@ import com.aquiris.miniredis.entity.SortedSet;
 import com.aquiris.miniredis.entity.ZElement;
 import com.aquiris.miniredis.repository.NElementRepository;
 import com.aquiris.miniredis.repository.SortedSetRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class MiniRedisService {
@@ -46,9 +46,9 @@ public class MiniRedisService {
         return LocalDateTime.now().plusSeconds(seconds);
     }
 
-    public String getValue(String key) {
+    public String getValue(String key) throws NoSuchElementException {
         Optional<NElement> nElement = nElementRepository.findById(key);
-        return nElement.isPresent() ? nElement.get().getValor() : null;
+        return nElement.map(NElement::getValor).orElseThrow();
     }
 
     public Integer deleteKeys(List<String> keyList) {
@@ -115,7 +115,34 @@ public class MiniRedisService {
 
     public Integer zCardinality(String key) {
         Optional<SortedSet> sortedSet = sortedSetRepository.findById(key);
-        return sortedSet.isPresent() ? sortedSet.get().getElementos().size() : 0;
+        return sortedSet.map(set -> set.getElementos().size()).orElse(0);
+    }
+
+    private List<ZElement> orderZElementsByScoreThenMember(List<ZElement> zElements) {
+        Comparator<ZElement> comparator = Comparator.comparing(ZElement::getScore);
+        comparator = comparator.thenComparing(ZElement::getMember);
+
+        Stream<ZElement> zElementsStream = zElements.stream().sorted(comparator);
+
+        return zElementsStream.collect(Collectors.toList());
+    }
+
+    public Integer zRankMember(String key, String member) throws NoSuchElementException {
+        SortedSet sortedSet = sortedSetRepository.findById(key).orElseThrow();
+
+        List<ZElement> zElements = sortedSet.getElementos();
+        ZElement wantedElement = findZElement(zElements, member);
+
+        List<ZElement> zElementsInOrder = orderZElementsByScoreThenMember(zElements);
+        return zElementsInOrder.indexOf(wantedElement);
+    }
+
+    private ZElement findZElement(List<ZElement> zElements, String member) {
+        List<ZElement> foundElements = zElements.stream()
+                .filter(zElement -> Objects.equals(zElement.getMember(), member))
+                .toList();
+        if (foundElements.isEmpty()) throw new NoSuchElementException();
+        return foundElements.get(0);
     }
 
 }
