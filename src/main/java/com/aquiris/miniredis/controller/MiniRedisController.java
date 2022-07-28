@@ -85,20 +85,20 @@ public class MiniRedisController {
         return miniRedisService.zAddScoreMember(key, zElementsBody.getZElements());
     }
 
-    @GetMapping("/sorted-set/{key}")
+    @GetMapping("/sorted-set/{key}/card")
     @ResponseStatus(HttpStatus.OK)
     public Integer zCardinality(@PathVariable final String key) {
         return miniRedisService.zCardinality(key);
     }
 
-    @GetMapping("/sorted-set/{key}")
+    @GetMapping("/sorted-set/{key}/rank")
     @ResponseStatus(HttpStatus.OK)
     public Integer zRankKeyMember(@PathVariable final String key,
                                   @RequestParam("member") final String member) {
         return miniRedisService.zRankMember(key, member);
     }
 
-    @GetMapping("/sorted-set/{key}")
+    @GetMapping("/sorted-set/{key}/range")
     @ResponseStatus(HttpStatus.OK)
     public ZElementsBody zRangeKeyStartStop(@PathVariable final String key,
                                                    @RequestParam("start") final Integer start,
