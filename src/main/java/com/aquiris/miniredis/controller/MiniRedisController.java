@@ -22,7 +22,7 @@ public class MiniRedisController {
     }
 
     @DeleteMapping()
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public Integer deleteKeysFromBothDBs(@RequestBody DeleteKeysBody deleteKeysBody) {
         return miniRedisService.deleteKeys(deleteKeysBody.getKeys(), "both");
     }
@@ -34,7 +34,7 @@ public class MiniRedisController {
     }
 
     @DeleteMapping("/element")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public Integer deleteKeysFromN(@RequestBody DeleteKeysBody deleteKeysBody) {
         return miniRedisService.deleteKeys(deleteKeysBody.getKeys(), "nElement");
     }
@@ -46,7 +46,7 @@ public class MiniRedisController {
     }
 
     @PostMapping("/element/{key}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public NElement setKeyValue(@PathVariable final String key,
                                 @RequestParam("value") final String value,
                                 @RequestParam("seconds") final Optional<Integer> seconds) {
@@ -61,13 +61,13 @@ public class MiniRedisController {
     }
 
     @PutMapping("/element/{key}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public String increaseKeyValue(@PathVariable final String key) {
         return miniRedisService.increaseValue(key);
     }
 
     @DeleteMapping("/sorted-set")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public Integer deleteKeysFromZ(@RequestBody DeleteKeysBody deleteKeysBody) {
         return miniRedisService.deleteKeys(deleteKeysBody.getKeys(), "sortedSet");
     }
@@ -79,7 +79,7 @@ public class MiniRedisController {
     }
 
     @PutMapping("/sorted-set/{key}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public Integer zAddKeyScoreMember(@PathVariable final String key,
                                       @RequestBody ZElementsBody zElementsBody) {
         return miniRedisService.zAddScoreMember(key, zElementsBody.getZElements());
