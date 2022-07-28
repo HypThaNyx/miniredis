@@ -52,7 +52,7 @@ public class MiniRedisService {
     }
 
     public Integer deleteKeys(List<String> keyList, String database) {
-        Integer numberOfKeysRemoved = 0;
+        int numberOfKeysRemoved = 0;
         for (String key : keyList) {
             if (database.equals("nElement") || database.equals("both"))
                 numberOfKeysRemoved += deleteKeyFromN(key);
@@ -82,9 +82,9 @@ public class MiniRedisService {
 
     public String increaseValue(String key) throws NumberFormatException {
         Optional<NElement> nElement = nElementRepository.findById(key);
-        Long value = 0L;
+        long value = 0L;
         if (nElement.isPresent()) {
-            value = Long.valueOf(nElement.get().getValor());
+            value = Long.parseLong(nElement.get().getValor());
         }
         value += 1L;
         return nElementRepository.save(new NElement(key, Long.toString(value))).getValor();
@@ -107,7 +107,7 @@ public class MiniRedisService {
     private Integer addZElements(SortedSet sortedSet, List<ZElement> zElements) {
         List<ZElement> currentElements = sortedSet.getElementos();
         List<ZElement> updatedElements = new ArrayList<>();
-        Integer numberOfElementsAdded = 0;
+        int numberOfElementsAdded = 0;
 
         for (ZElement zElement : zElements) {
             numberOfElementsAdded += addOrUpdateZElement(currentElements, zElement, updatedElements);
@@ -141,7 +141,7 @@ public class MiniRedisService {
 
         Stream<ZElement> zElementsStream = zElements.stream().sorted(comparator);
 
-        return new LinkedList<>(zElementsStream.collect(Collectors.toList()));
+        return zElementsStream.collect(Collectors.toCollection(LinkedList::new));
     }
 
     public Integer zRankMember(String key, String member) throws NoSuchElementException {
