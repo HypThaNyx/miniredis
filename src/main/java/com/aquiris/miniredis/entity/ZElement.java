@@ -1,5 +1,7 @@
 package com.aquiris.miniredis.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,9 +10,11 @@ public class ZElement {
 
     @Id
     @Column(name = "member", nullable = false)
+    @JsonProperty("member")
     private String member;
 
     @Column(name = "score")
+    @JsonProperty("score")
     private Long score;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
