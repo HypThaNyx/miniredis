@@ -5,6 +5,7 @@ import com.aquiris.miniredis.entity.SortedSet;
 import com.aquiris.miniredis.entity.ZElement;
 import com.aquiris.miniredis.repository.NElementRepository;
 import com.aquiris.miniredis.repository.SortedSetRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,8 +15,8 @@ import java.util.stream.Stream;
 
 @Service
 public class MiniRedisService {
-    private final NElementRepository nElementRepository;
-    private final SortedSetRepository sortedSetRepository;
+    protected final NElementRepository nElementRepository;
+    protected final SortedSetRepository sortedSetRepository;
 
     MiniRedisService(NElementRepository nElementRepository, SortedSetRepository sortedSetRepository) {
         this.nElementRepository = nElementRepository;
@@ -48,9 +49,11 @@ public class MiniRedisService {
     private Optional<NElement> findKeyIfNotExpired(String key) {
         Optional<NElement> nElement = nElementRepository.findById(key);
         if (nElement.isPresent()) {
-            if (LocalDateTime.now().isAfter(nElement.get().getExpiryDate())) {
-                nElementRepository.delete(nElement.get());
-                return Optional.empty();
+            if (nElement.get().getExpiryDate() != null) {
+                if (LocalDateTime.now().isAfter(nElement.get().getExpiryDate())) {
+                    nElementRepository.delete(nElement.get());
+                    return Optional.empty();
+                }
             }
         }
         return nElement;
