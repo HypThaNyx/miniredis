@@ -1,0 +1,914 @@
+{
+  "info": {
+    "_postman_id": "f95c5859-8d80-4fe2-934c-7e90c2940fcd",
+    "name": "MiniRedis",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "22432538"
+  },
+  "item": [
+    {
+      "name": "nElements",
+      "item": [
+        {
+          "name": "byKey",
+          "item": [
+            {
+              "name": "setKeyValue",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/mini-redis/element/myKey?value=123",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "mini-redis",
+                    "element",
+                    "myKey"
+                  ],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "123"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "setKeyValueEXSeconds",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/mini-redis/element/myKey?value=123&seconds=10",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "mini-redis",
+                    "element",
+                    "myKey"
+                  ],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "123"
+                    },
+                    {
+                      "key": "seconds",
+                      "value": "10",
+                      "description": "Expiration time in seconds"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getKeyValue",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/mini-redis/element/myKey",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "mini-redis",
+                    "element",
+                    "myKey"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "increaseKeyValue",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/mini-redis/element/myKey",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "mini-redis",
+                    "element",
+                    "myKey"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "getDBSizeFromN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis/element",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis",
+                "element"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteKeysFromN",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"data\": [\r\n        \"myfirstkey\",\r\n        \"mysecondkey\"\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/mini-redis/element",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis",
+                "element"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "sortedSets",
+      "item": [
+        {
+          "name": "byKey",
+          "item": [
+            {
+              "name": "zAddKeyScoreMember",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"data\": [\r\n        {\r\n            \"member\": \"myfirstmember\",\r\n            \"score\": 1\r\n        },\r\n        {\r\n            \"member\": \"mysecondmember\",\r\n            \"score\": 2\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/mini-redis/sorted-set/myKey",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "mini-redis",
+                    "sorted-set",
+                    "myKey"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "ZADD Player Scores",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"data\": [\r\n        {\r\n            \"member\": \"player1\",\r\n            \"score\": 10\r\n        },\r\n        {\r\n            \"member\": \"player2\",\r\n            \"score\": 20\r\n        }\r\n    ]\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/mini-redis/sorted-set/playerscores",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "mini-redis",
+                        "sorted-set",
+                        "playerscores"
+                      ]
+                    }
+                  },
+                  "_postman_previewlanguage": null,
+                  "header": null,
+                  "cookie": [],
+                  "body": null
+                }
+              ]
+            },
+            {
+              "name": "zCardinality",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/mini-redis/sorted-set/myKey/card",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "mini-redis",
+                    "sorted-set",
+                    "myKey",
+                    "card"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "ZCARD Player Scores",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/mini-redis/sorted-set/playerscores/card",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "mini-redis",
+                        "sorted-set",
+                        "playerscores",
+                        "card"
+                      ]
+                    }
+                  },
+                  "_postman_previewlanguage": null,
+                  "header": null,
+                  "cookie": [],
+                  "body": null
+                }
+              ]
+            },
+            {
+              "name": "zRankKeyMember",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/mini-redis/sorted-set/myKey/rank?member=myfirstmember",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "mini-redis",
+                    "sorted-set",
+                    "myKey",
+                    "rank"
+                  ],
+                  "query": [
+                    {
+                      "key": "member",
+                      "value": "myfirstmember"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "ZRANK Player Scores",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/mini-redis/sorted-set/playerscores/rank?member=player1",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "mini-redis",
+                        "sorted-set",
+                        "playerscores",
+                        "rank"
+                      ],
+                      "query": [
+                        {
+                          "key": "member",
+                          "value": "player1"
+                        }
+                      ]
+                    }
+                  },
+                  "_postman_previewlanguage": null,
+                  "header": null,
+                  "cookie": [],
+                  "body": null
+                }
+              ]
+            },
+            {
+              "name": "zRangeKeyStartStop",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/mini-redis/sorted-set/myKey/range?start=0&stop=1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "mini-redis",
+                    "sorted-set",
+                    "myKey",
+                    "range"
+                  ],
+                  "query": [
+                    {
+                      "key": "start",
+                      "value": "0"
+                    },
+                    {
+                      "key": "stop",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "ZRANGE Player Scores",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/mini-redis/sorted-set/playerscores/range?start=0&stop=1",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "mini-redis",
+                        "sorted-set",
+                        "playerscores",
+                        "range"
+                      ],
+                      "query": [
+                        {
+                          "key": "start",
+                          "value": "0"
+                        },
+                        {
+                          "key": "stop",
+                          "value": "1"
+                        }
+                      ]
+                    }
+                  },
+                  "_postman_previewlanguage": null,
+                  "header": null,
+                  "cookie": [],
+                  "body": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "getDBSizeFromZ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis/sorted-set",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis",
+                "sorted-set"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteKeysFromZ",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"data\": [\r\n        \"myfirstkey\",\r\n        \"mysecondkey\"\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/mini-redis/sorted-set",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis",
+                "sorted-set"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "getDBSizeFromBothDBs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/mini-redis",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "mini-redis"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "deleteKeysFromBothDBs",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"data\": [\r\n        \"myfirstkey\",\r\n        \"mysecondkey\"\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/mini-redis",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "mini-redis"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "executeCommandLine",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/mini-redis?cmd=SET mykey 123",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "mini-redis"
+          ],
+          "query": [
+            {
+              "key": "cmd",
+              "value": "SET mykey 123",
+              "description": "Comando do Redis com valores separados por espaço"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "SET key value",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=SET player1name wilson",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "SET player1name wilson"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "SET key value EX seconds",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=SET invincibility true EX 10",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "SET invincibility true EX 10"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "GET key",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=GET player1name",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "GET player1name"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "DEL key [key...]",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=DEL player1name invincibility invalidKey",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "DEL player1name invincibility invalidKey"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "DBSIZE",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=DBSIZE",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "DBSIZE"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "INCR key",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=INCR player2hp",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "INCR player2hp"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "ZADD key score member",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=ZADD playerScores player1 10 player2 25",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "ZADD playerScores player1 10 player2 25"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "ZCARD key",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=ZCARD playerScores",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "ZCARD playerScores"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "ZRANK key member",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=ZRANK playerScores player2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "ZRANK playerScores player2"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "ZRANGE key start stop",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mini-redis?cmd=ZRANGE playerScores 0 1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mini-redis"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "ZRANGE playerScores 0 1"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        }
+      ]
+    }
+  ]
+}
