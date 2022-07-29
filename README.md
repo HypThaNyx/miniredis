@@ -26,7 +26,6 @@ Projeto de miniatura de um banco Redis em memória usando H2
 
 <ul>
   <li><a href="#-como-funciona">Como funciona</a></li>
-  <li><a href="#-exemplo-na-prática">Exemplo na prática</a></li>
   <li><a href="#-testando-na-sua-máquina">Testando na sua máquina</a></li>
   <li><a href="#-features">Features</a></li>
   <li><a href="#-apoio">Apoio</a></li>
@@ -37,16 +36,17 @@ Projeto de miniatura de um banco Redis em memória usando H2
 
 ## 🧪 Como funciona
 
-*(Descrição da regra de negócio e fundamento teórico)*
+Essa aplicação se trata de uma REST API com o intuito de simular alguns dos comandos atualmente oferecidos pelo banco de
+dados [Redis](https://redis.io/).
 
-Ainda não entendeu a premissa desse projeto e como ele pode ser útil? Observe o tópico abaixo "Exemplo na prática" para
-entender melhor.
+Através do consumo das rotas expostas pelo controller, o usuário é capaz de executar um comando por vez ao passar os
+parâmetros exigidos pela rota.
 
----
+A lista de todos os comandos oferecidos pelo Redis pode ser encontrada [aqui](http://redis.io/commands).
 
-## 🔨 Exemplo na prática
-
-*(Descrição de como a aplicação implementa essa lógica na prática)*
+Como o propósito principal do Redis é armazenar valores, foi utilizado o H2 como banco de dados em memória.
+Além do desenvolvimento da lógica e regra de negócio similares ao Redis, também foram criados testes unitários para
+garantir o funcionamento das funções encontradas na camada de serviços.
 
 Gostou e quer testar a aplicação na sua máquina? O tópico abaixo "Testando na sua máquina" pode te ajudar nisso.
 
@@ -59,7 +59,7 @@ Gostou e quer testar a aplicação na sua máquina? O tópico abaixo "Testando n
 ### Requisitos básicos
 
 - [Git](https://git-scm.com/downloads)
-- [JDK 11](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
+- [JDK 18](https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html)
 
 ### Instruções de uso
 
@@ -80,8 +80,12 @@ cd miniredis
 - rode o comando a seguir para rodar os testes unitários:
 
 ``` bash
-dotnet test | mvn test
+mvn test
 ```
+
+- para experimentar também é possível importar a Collection do Postman (encontrada na pasta do projeto), executar a
+  aplicação e consumir as requests documentadas
+
 
 - voilà!
 
@@ -89,8 +93,31 @@ dotnet test | mvn test
 
 ## ⛳ Features
 
-- [X] Features já implementadas com sucesso.
-- [ ] Features ainda a implementar
+### Requisitos
+
+- [X] Implementar TODOS os comandos requisitados, sendo eles:
+  - [X] 1 - SET key value
+  - [X] 2 - SET key value EX seconds
+  - [X] 3 - GET key
+  - [X] 4 - DEL key [key ...]
+  - [X] 5 - DBSIZE
+  - [X] 6 - INCR key
+  - [X] 7 - ZADD key score member
+  - [X] 8 - ZCARD key
+  - [X] 9 - ZRANK key member
+  - [X] 10 - ZRANGE key start stop
+- [X] Fazer testes unitários
+- [X] Código limpo
+
+### Extras
+
+- [X] Expor como API na porta 8080
+- [X] Definir verbos HTTP
+- [X] Comunicação por String ASCII
+
+### Super extra
+
+- [ ] ❓
 
 ---
 
