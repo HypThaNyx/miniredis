@@ -13,10 +13,10 @@ import java.util.List;
 
 @NoArgsConstructor
 @Entity
-@Table(name = "sorted_set")
+@Table(name = "sortedSet")
 public class SortedSet extends Ledger {
 
-    @OneToMany(mappedBy = "sorted_set", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sortedSet", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<ZElement> elementos = new ArrayList<>();
 
@@ -30,12 +30,12 @@ public class SortedSet extends Ledger {
     }
 
     public void setElementos(List<ZElement> elementos) {
-        elementos.forEach(elemento -> elemento.setSorted_set(this));
+        elementos.forEach(elemento -> elemento.setSortedSet(this));
         this.elementos = elementos;
     }
 
     public void addToElementos(ZElement elemento) {
-        elemento.setSorted_set(this);
+        elemento.setSortedSet(this);
         this.elementos.add(elemento);
     }
 

@@ -23,16 +23,16 @@ public class ZElement {
     private Long score;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "sorted_set_key", nullable = false)
+    @JoinColumn(name = "sortedSet_key", nullable = false)
     @JsonBackReference
-    private SortedSet sorted_set;
+    private SortedSet sortedSet;
 
-    public SortedSet getSorted_set() {
-        return sorted_set;
+    public SortedSet getSortedSet() {
+        return sortedSet;
     }
 
-    public void setSorted_set(SortedSet sorted_set) {
-        this.sorted_set = sorted_set;
+    public void setSortedSet(SortedSet sortedSet) {
+        this.sortedSet = sortedSet;
     }
 
     public Long getScore() {
@@ -52,6 +52,11 @@ public class ZElement {
     }
 
     @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -61,10 +66,12 @@ public class ZElement {
             return false;
         ZElement other = (ZElement) obj;
         if (member == null) {
-            if (other.member != null)
-                return false;
-        } else if (!member.equals(other.member))
-            return false;
-        return true;
+            return other.member == null;
+        } else return member.equals(other.member);
+    }
+
+    @Override
+    public String toString() {
+        return "{ \"score\": " + score + ", \"member\": \"" + member + "\" }";
     }
 }

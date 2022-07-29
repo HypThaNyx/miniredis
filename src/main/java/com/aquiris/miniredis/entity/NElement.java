@@ -46,4 +46,28 @@ public class NElement extends Ledger {
     public void setExpiryDate(LocalDateTime expiryDate) {
         this.expiryDate = expiryDate;
     }
+
+    @Override
+    public int hashCode() {
+        return 17;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        NElement other = (NElement) obj;
+        if (chave == null) {
+            return other.chave == null;
+        } else return chave.equals(other.chave);
+    }
+
+    @Override
+    public String toString() {
+        return "{ \"chave\": \"" + chave + "\", \"valor\": \"" + valor + "\" }";
+    }
 }
