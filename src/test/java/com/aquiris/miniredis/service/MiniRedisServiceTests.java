@@ -167,8 +167,8 @@ class MiniRedisServiceTests {
     @DisplayName("Should add score member to key")
     void shouldAddScoreMemberToKey() {
         List<ZElement> zElements = new ArrayList<>();
-        zElements.add(new ZElement());
-        zElements.add(new ZElement());
+        zElements.add(new ZElement("member1", 1L, null));
+        zElements.add(new ZElement("member2", 2L, null));
 
         when(sortedSetRepository.findById("testKey")).thenReturn(Optional.empty());
         when(sortedSetRepository.save(any())).thenReturn(new SortedSet());
