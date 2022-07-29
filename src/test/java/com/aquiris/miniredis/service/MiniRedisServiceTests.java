@@ -37,7 +37,7 @@ class MiniRedisServiceTests {
         when(nElementRepository.count()).thenReturn(1L);
         when(sortedSetRepository.count()).thenReturn(1L);
 
-        Long keysFromN = miniRedisService.getDBSize( "nElement");
+        Long keysFromN = miniRedisService.getDBSize("nElement");
         Long keysFromZ = miniRedisService.getDBSize("sortedSet");
         Long keysFromBoth = miniRedisService.getDBSize("both");
 

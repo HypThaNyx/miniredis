@@ -100,8 +100,8 @@ public class MiniRedisController {
     @GetMapping("/sorted-set/{key}/range")
     @ResponseStatus(HttpStatus.OK)
     public ZElementsBody zRangeKeyStartStop(@PathVariable final String key,
-                                                   @RequestParam("start") final Integer start,
-                                                   @RequestParam("stop") final Integer stop) {
+                                            @RequestParam("start") final Integer start,
+                                            @RequestParam("stop") final Integer stop) {
         return new ZElementsBody(miniRedisService.zRangeKey(key, start, stop));
     }
 

@@ -34,7 +34,7 @@ public class MiniRedisService {
         return nElementRepository.save(new NElement(key, value));
     }
 
-    public NElement setValue(String key, String value, Integer seconds){
+    public NElement setValue(String key, String value, Integer seconds) {
         return nElementRepository.save(new NElement(key, value, dateTimeFromNow(seconds)));
     }
 
@@ -108,8 +108,7 @@ public class MiniRedisService {
 
         if (sortedSet.isPresent()) {
             return addZElements(sortedSet.get(), zElements);
-        }
-        else {
+        } else {
             sortedSetRepository.save(new SortedSet(key, zElements));
             return zElements.size();
         }
@@ -226,7 +225,7 @@ public class MiniRedisService {
         List<String> scoreAndMembers = Arrays.asList(terms).subList(2, terms.length - 1);
 
         for (int i = 0; i < scoreAndMembers.size(); i += 2) {
-            zElements.add(new ZElement(scoreAndMembers.get(i), Long.valueOf(scoreAndMembers.get(i+1)), null));
+            zElements.add(new ZElement(scoreAndMembers.get(i), Long.valueOf(scoreAndMembers.get(i + 1)), null));
         }
 
         return zElements;

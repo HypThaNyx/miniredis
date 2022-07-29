@@ -39,7 +39,8 @@ Projeto de miniatura de um banco Redis em memória usando H2
 
 *(Descrição da regra de negócio e fundamento teórico)*
 
-Ainda não entendeu a premissa desse projeto e como ele pode ser útil? Observe o tópico abaixo "Exemplo na prática" para entender melhor.
+Ainda não entendeu a premissa desse projeto e como ele pode ser útil? Observe o tópico abaixo "Exemplo na prática" para
+entender melhor.
 
 ---
 
@@ -54,28 +55,35 @@ Gostou e quer testar a aplicação na sua máquina? O tópico abaixo "Testando n
 ## 🚀 Testando na sua máquina
 
 *(Passo a passo de como baixar e executar o projeto em qualquer máquina)*
+
 ### Requisitos básicos
+
 - [Git](https://git-scm.com/downloads)
 - [JDK 11](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
 
 ### Instruções de uso
+
 - escolha uma pasta e execute o Git Bash (clique direito na pasta -> Git Bash Here)
 
 - clone esse repositório na sua máquina
+
 ``` bash
 git clone https://github.com/HypThaNyx/miniredis.git
 ```
+
 - entre na pasta do projeto
+
 ``` bash
 cd miniredis
 ```
+
 - rode o comando a seguir para rodar os testes unitários:
+
 ``` bash
 dotnet test | mvn test
 ```
 
 - voilà!
-
 
 ---
 

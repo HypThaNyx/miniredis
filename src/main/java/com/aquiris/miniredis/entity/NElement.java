@@ -20,12 +20,12 @@ public class NElement extends Ledger {
     public NElement() {
     }
 
-    public NElement(String chave, String valor){
+    public NElement(String chave, String valor) {
         this.chave = chave;
         this.valor = valor;
     }
 
-    public NElement(String chave, String valor, LocalDateTime expiryDate){
+    public NElement(String chave, String valor, LocalDateTime expiryDate) {
         this.chave = chave;
         this.valor = valor;
         this.expiryDate = expiryDate;
