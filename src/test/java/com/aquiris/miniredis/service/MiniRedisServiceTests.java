@@ -20,7 +20,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class MiniRedisServiceTests {
+class MiniRedisServiceTests {
 
     @InjectMocks
     MiniRedisService miniRedisService;
@@ -37,9 +37,9 @@ public class MiniRedisServiceTests {
         when(nElementRepository.count()).thenReturn(1L);
         when(sortedSetRepository.count()).thenReturn(1L);
 
-        Integer keysFromN = miniRedisService.getDBSize( "nElement");
-        Integer keysFromZ = miniRedisService.getDBSize("sortedSet");
-        Integer keysFromBoth = miniRedisService.getDBSize("both");
+        Long keysFromN = miniRedisService.getDBSize( "nElement");
+        Long keysFromZ = miniRedisService.getDBSize("sortedSet");
+        Long keysFromBoth = miniRedisService.getDBSize("both");
 
         assertEquals(1, keysFromN);
         assertEquals(1, keysFromZ);

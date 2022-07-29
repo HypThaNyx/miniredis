@@ -1,14 +1,13 @@
 package com.aquiris.miniredis.controller;
 
 import com.aquiris.miniredis.entity.NElement;
-import com.aquiris.miniredis.entity.ZElement;
 import com.aquiris.miniredis.model.DeleteKeysBody;
 import com.aquiris.miniredis.model.ZElementsBody;
 import com.aquiris.miniredis.service.MiniRedisService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.Optional;
 
 @RestController
@@ -29,7 +28,7 @@ public class MiniRedisController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public Integer getDBSizeFromBothDBs() {
+    public Long getDBSizeFromBothDBs() {
         return miniRedisService.getDBSize("both");
     }
 
@@ -41,7 +40,7 @@ public class MiniRedisController {
 
     @GetMapping("/element")
     @ResponseStatus(HttpStatus.OK)
-    public Integer getDBSizeFromN() {
+    public Long getDBSizeFromN() {
         return miniRedisService.getDBSize("nElement");
     }
 
@@ -74,7 +73,7 @@ public class MiniRedisController {
 
     @GetMapping("/sorted-set")
     @ResponseStatus(HttpStatus.OK)
-    public Integer getDBSizeFromZ() {
+    public Long getDBSizeFromZ() {
         return miniRedisService.getDBSize("sortedSet");
     }
 
@@ -104,6 +103,12 @@ public class MiniRedisController {
                                                    @RequestParam("start") final Integer start,
                                                    @RequestParam("stop") final Integer stop) {
         return new ZElementsBody(miniRedisService.zRangeKey(key, start, stop));
+    }
+
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> executeCommandLine(@RequestParam("cmd") final String commandLine) {
+        return new ResponseEntity<>(miniRedisService.orchestrateCommandLine(commandLine), HttpStatus.OK);
     }
 
 }

@@ -5,7 +5,6 @@ import com.aquiris.miniredis.entity.SortedSet;
 import com.aquiris.miniredis.entity.ZElement;
 import com.aquiris.miniredis.repository.NElementRepository;
 import com.aquiris.miniredis.repository.SortedSetRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,11 +22,11 @@ public class MiniRedisService {
         this.sortedSetRepository = sortedSetRepository;
     }
 
-    public Integer getDBSize(String database) {
+    public Long getDBSize(String database) {
         return switch (database) {
-            case "nElement" -> Long.valueOf(nElementRepository.count()).intValue();
-            case "sortedSet" -> Long.valueOf(sortedSetRepository.count()).intValue();
-            default -> Long.valueOf(nElementRepository.count() + sortedSetRepository.count()).intValue();
+            case "nElement" -> nElementRepository.count();
+            case "sortedSet" -> sortedSetRepository.count();
+            default -> nElementRepository.count() + sortedSetRepository.count();
         };
     }
 
@@ -45,15 +44,17 @@ public class MiniRedisService {
 
     private Optional<NElement> findKeyIfNotExpired(String key) {
         Optional<NElement> nElement = nElementRepository.findById(key);
-        if (nElement.isPresent()) {
-            if (nElement.get().getExpiryDate() != null) {
-                if (LocalDateTime.now().isAfter(nElement.get().getExpiryDate())) {
-                    nElementRepository.delete(nElement.get());
-                    return Optional.empty();
-                }
-            }
+        if (nElementIsExpired(nElement)) {
+            nElementRepository.delete(nElement.get());
+            return Optional.empty();
         }
         return nElement;
+    }
+
+    private boolean nElementIsExpired(Optional<NElement> nElement) {
+        return (((nElement.isPresent())
+                && nElement.get().getExpiryDate() != null)
+                && LocalDateTime.now().isAfter(nElement.get().getExpiryDate()));
     }
 
     public String getValue(String key) {
@@ -102,7 +103,7 @@ public class MiniRedisService {
 
 
     public Integer zAddScoreMember(String key, List<ZElement> zElements) {
-        zElements = zElements.stream().distinct().collect(Collectors.toList());
+        zElements = zElements.stream().distinct().toList();
         Optional<SortedSet> sortedSet = sortedSetRepository.findById(key);
 
         if (sortedSet.isPresent()) {
@@ -188,6 +189,47 @@ public class MiniRedisService {
         stop++;
 
         return zElements.subList(start, stop);
+    }
+
+    public String orchestrateCommandLine(String commandLine) {
+        String[] terms = commandLine.split(" ");
+        switch (terms[0]) {
+            case "SET":
+                if (terms[3].equals("EX"))
+                    return setValue(terms[1], terms[2], Integer.valueOf(terms[4])).toString();
+                return setValue(terms[1], terms[2]).toString();
+            case "GET":
+                return getValue(terms[1]);
+            case "DEL":
+                return deleteKeys(termsToKeyList(terms), "both").toString();
+            case "INCR":
+                return increaseValue(terms[1]);
+            case "ZADD":
+                return zAddScoreMember(terms[1], termsToScoreMemberList(terms)).toString();
+            case "ZCARD":
+                return zCardinality(terms[1]).toString();
+            case "ZRANK":
+                return zRankMember(terms[1], terms[2]).toString();
+            case "ZRANGE":
+                return zRangeKey(terms[1], Integer.valueOf(terms[2]), Integer.valueOf(terms[3])).toString();
+            default:
+                return getDBSize("both").toString();
+        }
+    }
+
+    private List<String> termsToKeyList(String[] terms) {
+        return Arrays.asList(terms).subList(1, terms.length - 1);
+    }
+
+    private List<ZElement> termsToScoreMemberList(String[] terms) {
+        List<ZElement> zElements = new ArrayList<>();
+        List<String> scoreAndMembers = Arrays.asList(terms).subList(2, terms.length - 1);
+
+        for (int i = 0; i < scoreAndMembers.size(); i += 2) {
+            zElements.add(new ZElement(scoreAndMembers.get(i), Long.valueOf(scoreAndMembers.get(i+1)), null));
+        }
+
+        return zElements;
     }
 
 }
