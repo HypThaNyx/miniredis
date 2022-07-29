@@ -24,14 +24,11 @@ public class MiniRedisService {
     }
 
     public Integer getDBSize(String database) {
-        switch (database) {
-            case "nElement":
-                return Long.valueOf(nElementRepository.count()).intValue();
-            case "sortedSet":
-                return Long.valueOf(sortedSetRepository.count()).intValue();
-            default:
-                return Long.valueOf(nElementRepository.count() + sortedSetRepository.count()).intValue();
-        }
+        return switch (database) {
+            case "nElement" -> Long.valueOf(nElementRepository.count()).intValue();
+            case "sortedSet" -> Long.valueOf(sortedSetRepository.count()).intValue();
+            default -> Long.valueOf(nElementRepository.count() + sortedSetRepository.count()).intValue();
+        };
     }
 
     public NElement setValue(String key, String value) {
@@ -59,7 +56,7 @@ public class MiniRedisService {
         return nElement;
     }
 
-    public String getValue(String key) throws NoSuchElementException {
+    public String getValue(String key) {
         Optional<NElement> nElement = findKeyIfNotExpired(key);
         return nElement.map(NElement::getValor).orElse("(nil)");
     }
@@ -185,7 +182,7 @@ public class MiniRedisService {
     }
 
     private List<ZElement> findSubList(LinkedList<ZElement> zElements, Integer start, Integer stop) {
-        if (start > stop || start > zElements.size() - 1) return new LinkedList<>();
+        if (start > stop || start > zElements.size() - 1) return new ArrayList<>();
         if (start < 0) start = 0;
         if (stop > zElements.size() - 1) stop = zElements.size() - 1;
         stop++;
