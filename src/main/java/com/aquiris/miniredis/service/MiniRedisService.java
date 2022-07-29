@@ -194,7 +194,7 @@ public class MiniRedisService {
         String[] terms = commandLine.split(" ");
         switch (terms[0]) {
             case "SET":
-                if (terms[3].equals("EX"))
+                if (terms.length > 3)
                     return setValue(terms[1], terms[2], Integer.valueOf(terms[4])).toString();
                 return setValue(terms[1], terms[2]).toString();
             case "GET":
